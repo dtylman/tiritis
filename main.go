@@ -21,11 +21,11 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
 
-	"github.com/dtylman/golang-ex/controllers"
+	"github.com/dtylman/tiritis/controllers"
 )
 
 const (
-	APP_VER = "0.1.1.0227"
+	APP_VER = "0.0"
 )
 
 var (
