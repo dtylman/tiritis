@@ -47,26 +47,31 @@ type baseController struct {
 
 // Prepare implemented Prepare() method for baseController.
 // It's used for language option check and setting.
-func (this *baseController) Prepare() {
+func (bc *baseController) Prepare() {
 	// Reset language option.
-	this.Lang = "" // This field is from i18n.Locale.
+	bc.Lang = "" // This field is from i18n.Locale.
 
 	// 1. Get language information from 'Accept-Language'.
-	al := this.Ctx.Request.Header.Get("Accept-Language")
+	al := bc.Ctx.Request.Header.Get("Accept-Language")
 	if len(al) > 4 {
 		al = al[:5] // Only compare first 5 letters.
 		if i18n.IsExist(al) {
-			this.Lang = al
+			bc.Lang = al
 		}
 	}
 
 	// 2. Default language is English.
-	if len(this.Lang) == 0 {
-		this.Lang = "en-US"
+	if len(bc.Lang) == 0 {
+		bc.Lang = "en-US"
 	}
 
 	// Set template level language option.
-	this.Data["Lang"] = this.Lang
+	bc.Data["Lang"] = bc.Lang
+
+	// by default - show the nav bar.
+	bc.Data["show_nav_bar"] = true
+
+	beego.Info(bc.Data)
 }
 
 // AppController handles the welcome screen that allows user to pick a technology and username.
@@ -75,31 +80,28 @@ type AppController struct {
 }
 
 // Get implemented Get() method for AppController.
-func (this *AppController) Get() {
-	this.TplNames = "welcome.html"
+func (ac *AppController) Get() {
+	ac.Dashboard()
 }
 
-// Join method handles POST requests for AppController.
-func (this *AppController) Join() {
-	// Get form value.
-	uname := this.GetString("uname")
-	tech := this.GetString("tech")
+func (ac *AppController) Dashboard() {
+	ac.TplNames = "dashboard.html"
+}
 
-	// Check valid.
-	if len(uname) == 0 {
-		this.Redirect("/", 302)
-		return
-	}
+func (ac *AppController) Login() {
+	ac.Data["show_nav_bar"] = false
+	ac.TplNames = "login.html"
+}
 
-	switch tech {
-	case "Long Polling", "长轮询":
-		this.Redirect("/lp?uname="+uname, 302)
-	case "WebSocket":
-		this.Redirect("/ws?uname="+uname, 302)
-	default:
-		this.Redirect("/", 302)
-	}
+func (ac *AppController) Logout() {
+	//TODO: do logout
+	ac.Login()
+}
 
-	// Usually put return after redirect.
-	return
+func (ac *AppController) Inspects() {
+	ac.TplNames = "inspects.html"
+}
+
+func (ac *AppController) Alerts() {
+	ac.TplNames = "alerts.html"
 }

@@ -38,17 +38,11 @@ func main() {
 
 	// Register routers.
 	beego.Router("/", &controllers.AppController{})
-	// Indicate AppController.Join method to handle POST requests.
-	beego.Router("/join", &controllers.AppController{}, "post:Join")
-
-	// Long polling.
-	beego.Router("/lp", &controllers.LongPollingController{}, "get:Join")
-	beego.Router("/lp/post", &controllers.LongPollingController{})
-	beego.Router("/lp/fetch", &controllers.LongPollingController{}, "get:Fetch")
-
-	// WebSocket.
-	beego.Router("/ws", &controllers.WebSocketController{})
-	beego.Router("/ws/join", &controllers.WebSocketController{}, "get:Join")
+	beego.Router("/login", &controllers.AppController{}, "get:Login")
+	beego.Router("/logout", &controllers.AppController{}, "get:Logout")
+	beego.Router("/inspects", &controllers.AppController{}, "get:Inspects")
+	beego.Router("/alerts", &controllers.AppController{}, "get:Alerts")
+	beego.Router("/dashboard", &controllers.AppController{}, "get:Dashboard")
 
 	// Register template functions.
 	beego.AddFuncMap("i18n", i18n.Tr)
