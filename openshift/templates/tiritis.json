@@ -2,22 +2,22 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "beego-example",
+    "name": "tiritis",
     "annotations": {
-      "description": "An example Beego (http://beego.me/) application written in Golang",
-      "tags": "quickstart,golang",
+      "description": "",
+      "tags": "golang",
       "iconClass": "icon-golang"
     }
   },
   "labels": {
-    "template": "beego-example"
+    "template": "tiritis-dev"
   },
   "objects": [
     {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "beego-example",
+        "name": "tiritis",
         "annotations": {
           "description": "Exposes and load balances the application pods"
         }
@@ -31,7 +31,7 @@
           }
         ],
         "selector": {
-          "name": "beego-example"
+          "name": "tiritis"
         }
       }
     },
@@ -39,13 +39,13 @@
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "beego-example"
+        "name": "tiritis"
       },
       "spec": {
         "host": "${APPLICATION_DOMAIN}",
         "to": {
           "kind": "Service",
-          "name": "beego-example"
+          "name": "tiritis"
         }
       }
     },
@@ -53,7 +53,7 @@
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "beego-example",
+        "name": "tiritis",
         "annotations": {
           "description": "Keeps track of changes in the application image"
         }
@@ -63,7 +63,7 @@
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "beego-example",
+        "name": "tiritis",
         "annotations": {
           "description": "Defines how to build the application"
         }
@@ -83,7 +83,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "beego-example:latest"
+            "name": "tiritis:latest"
           }
         },
         "triggers": [
@@ -106,7 +106,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "beego-example",
+        "name": "tiritis",
         "annotations": {
           "description": "Defines how to deploy the application server"
         }
@@ -121,11 +121,11 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "beego-example"
+                "tiritis"
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "beego-example:latest"
+                "name": "tiritis:latest"
               }
             }
           },
@@ -135,20 +135,20 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "beego-example"
+          "name": "tiritis"
         },
         "template": {
           "metadata": {
-            "name": "beego-example",
+            "name": "tiritis",
             "labels": {
-              "name": "beego-example"
+              "name": "tiritis"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "beego-example",
-                "image": "beego-example",
+                "name": "tiritis",
+                "image": "tiritis",
                 "ports": [
                   {
                     "containerPort": 8080
@@ -165,7 +165,7 @@
     {
       "name": "SOURCE_REPOSITORY_URL",
       "description": "The URL of the repository with your application source code",
-      "value": "https://github.com/openshift/golang-ex.git"
+      "value": "https://github.com/dtylman/tiritis.git"
     },
     {
       "name": "SOURCE_REPOSITORY_REF",
@@ -177,8 +177,8 @@
     },
     {
       "name": "APPLICATION_DOMAIN",
-      "description": "The exposed hostname that will route to the Beego service",
-      "value": "beego-example.openshiftapps.com"
+      "description": "The exposed hostname that will route to the tiritis service",
+      "value": ""
     },
     {
       "name": "GITHUB_WEBHOOK_SECRET",
