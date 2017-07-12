@@ -9,20 +9,20 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Script</th>
+                <th>{{i18n .Lang "name"}}</th>
+                <th>{{i18n .Lang "description"}}</th>
+                <th></th>
             </tr>
             </thead>
 
             <tbody>
             {{range .inspections}}
             <tr>
-                <td>{{.Name}}</td>
+                <td><a href="/inspects/edit?name={{.Name}}">{{.Name}}</a></td>
                 <td>{{.Description}}</td>
                 <td>
-                    <a href="#">edit</a>
-                    <a href="#">delete</a>
+                    <a title="delete" href="/inspects/del?name={{.Name}}"><i class="fa fa-remove fa-fw"></i></a>
+                    <a title="edit" href="/inspects/edit?name={{.Name}}"><i class="fa fa-edit fa-fw"></i></a>
                 </td>
             </tr>
             {{end}}
@@ -33,7 +33,8 @@
 
 <div class="row">
     <div class="col-lg-11">
-        <a href="/inspects/new" class="btn btn-primary" role="button">{{i18n .Lang "new"}}</a>
+        <a href="/inspects/new" class="btn btn-primary" role="button"><i class="fa fa-plus fa-fw"></i>{{i18n .Lang
+            "new"}}</a>
     </div>
 </div>
 {{end}}

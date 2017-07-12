@@ -11,11 +11,7 @@
   .CodeMirror { height: auto; border: 1px solid #ddd; }
   .CodeMirror-scroll { max-height: 200px; }
   .CodeMirror pre { padding-left: 7px; line-height: 1.25; }
-
-
-
 </style>
-
 
 {{end}}
 {{define "body"}}
@@ -24,14 +20,15 @@
         <div class="col-lg-3">
             <div class="form-group">
                 <label for="txtName">{{i18n .Lang "name"}}</label>
-                <input type="text" class="form-control" id="txtName" name="txtName" placeholder='{{i18n .Lang "name"}}'>
+                <input type="text" class="form-control" id="txtName" name="txtName" placeholder='{{i18n .Lang "name"}}'
+                       value="{{.inspection.Name}}">
             </div>
         </div>
         <div class="col-lg-8">
             <div class="form-group">
                 <label for="txtDesc">{{i18n .Lang "description"}}</label>
                 <input type="text" class="form-control" id="txtDesc" name="txtDesc"
-                       placeholder='{{i18n .Lang "description"}}'>
+                       placeholder='{{i18n .Lang "description"}}' value="{{.inspection.Description}}">
             </div>
         </div>
     </div>
@@ -39,7 +36,7 @@
         <div class="col-lg-11">
             <div class="form-group">
                 <label for="txtScript">{{i18n .Lang "script"}}</label>
-                <textarea class="form-control" name="txtScript" id="txtScript"></textarea>
+                <textarea class="form-control" name="txtScript" id="txtScript">{{.inspection.Script}}</textarea>
 
             </div>
         </div>
@@ -60,6 +57,13 @@
       matchBrackets: true
     });
     editor.setOption("theme", "cobalt");
+
+
+
+
+
+
+
 
 
 

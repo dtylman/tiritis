@@ -44,6 +44,8 @@ func main() {
 
 	beego.Router("/inspects", &controllers.InspectController{}, "get:List")
 	beego.Router("/inspects/new", &controllers.InspectController{}, "get:New")
+	beego.Router("/inspects/del", &controllers.InspectController{}, "get:Delete")
+	beego.Router("/inspects/edit", &controllers.InspectController{}, "get:Edit")
 	beego.Router("/inspects/save", &controllers.InspectController{}, "post:Save")
 
 	beego.Router("/alerts", &controllers.AppController{}, "get:Alerts")
