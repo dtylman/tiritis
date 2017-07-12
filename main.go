@@ -22,6 +22,7 @@ import (
 	"github.com/beego/i18n"
 
 	"github.com/dtylman/tiritis/controllers"
+	"github.com/dtylman/tiritis/models/db"
 )
 
 const (
@@ -40,9 +41,16 @@ func main() {
 	beego.Router("/", &controllers.AppController{})
 	beego.Router("/login", &controllers.AppController{}, "get:Login")
 	beego.Router("/logout", &controllers.AppController{}, "get:Logout")
-	beego.Router("/inspects", &controllers.AppController{}, "get:Inspects")
+
+	beego.Router("/inspects", &controllers.InspectController{}, "get:List")
+	beego.Router("/inspects/new", &controllers.InspectController{}, "get:New")
+	beego.Router("/inspects/save", &controllers.InspectController{}, "post:Save")
+
 	beego.Router("/alerts", &controllers.AppController{}, "get:Alerts")
+
 	beego.Router("/dashboard", &controllers.AppController{}, "get:Dashboard")
+
+	beego.Router("/clusters", &controllers.AppController{}, "get:Clusters")
 
 	// Register template functions.
 	beego.AddFuncMap("i18n", i18n.Tr)
@@ -56,5 +64,10 @@ func main() {
 		beego.EnableHttpTLS = true
 	}
 
+	err := db.Open()
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 	beego.Run()
 }
