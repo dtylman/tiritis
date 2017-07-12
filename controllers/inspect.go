@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/dtylman/tiritis/models"
 	"github.com/dtylman/tiritis/models/db"
 )
@@ -21,18 +20,18 @@ func (ic *InspectController) Save() {
 		Script:      ic.GetString("txtScript")}
 	err := db.Instance.Save(inspection)
 	if err != nil {
-		beego.Error(err)
+		ic.addError(err)
 	}
-	ic.TplNames = "inspects/list.html"
+	ic.List()
 }
 
 func (ic *InspectController) List() {
 	var inspections []models.Inspection
 	err := db.Instance.All(&inspections)
 	if err != nil {
-		beego.Error(err)
+		ic.addError(err)
+	} else {
+		ic.Data["inspections"] = inspections
 	}
-	ic.Data["inspections"] = inspections
-
 	ic.TplNames = "inspects/list.html"
 }

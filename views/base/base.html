@@ -5,30 +5,32 @@
     {{template "head" .}}
 </head>
 <body>
+
 <div id="wrapper">
     {{if .show_nav_bar}}
     {{template "base/navbar.html" .}}
-    <!-- Page Content -->
+
     <div id="page-wrapper">
+        {{range .alerts}}
+        <div class="alert alert-danger alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error: </strong> {{.Error}}
+        </div>
+        {{end}}
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Blank</h1>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
 
             {{template "body" .}}
 
         </div>
-        <!-- /.container-fluid -->
     </div>
-    <!-- /#page-wrapper -->
     {{else}}
     {{template "body" .}}
     {{end}}
-
 
 </div>
 <!-- /#wrapper -->
