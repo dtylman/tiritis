@@ -46,11 +46,11 @@ func (bc *baseController) setNavBar(value bool) {
 
 func (bc *baseController) addError(err error) {
 	beego.Error(err)
-	list, exists := bc.Data["alerts"]
+	list, exists := bc.Data["errors"]
 	if !exists {
-		bc.Data["alerts"] = []error{err}
+		bc.Data["errors"] = []error{err}
 	} else {
 		errs := list.([]error)
-		bc.Data["alerts"] = append(errs, err)
+		bc.Data["errors"] = append(errs, err)
 	}
 }

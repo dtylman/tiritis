@@ -61,10 +61,6 @@ func (ac *AppController) Logout() {
 	ac.Login()
 }
 
-func (ac *AppController) Alerts() {
-	ac.TplNames = "alerts.html"
-}
-
 func (ac *AppController) Clusters() {
 	ac.TplNames = "clusters.html"
 }

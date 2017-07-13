@@ -15,15 +15,36 @@
 
 {{end}}
 {{define "body"}}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">{{i18n .Lang "inspects_new"}}</h2>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
 <form action="/inspects/save" method="post">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-1">
             <div class="form-group">
                 <label for="txtName">{{i18n .Lang "name"}}</label>
                 <input type="text" class="form-control" id="txtName" name="txtName" placeholder='{{i18n .Lang "name"}}'
                        value="{{.inspection.Name}}">
             </div>
         </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label for="selResource">{{i18n .Lang "resource"}}</label>
+                {{$selected:=.inspection.Name}}
+                <select id="selResource" name="selResource" class="form-control">
+                    {{range .resources}}
+                    <option {{if eq .Name $selected}}selected{{end}}>{{.Name}}</option>
+                    {{end}}
+
+                </select>
+            </div>
+        </div>
+
         <div class="col-lg-8">
             <div class="form-group">
                 <label for="txtDesc">{{i18n .Lang "description"}}</label>
@@ -32,6 +53,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-11">
             <div class="form-group">
@@ -57,16 +79,5 @@
       matchBrackets: true
     });
     editor.setOption("theme", "cobalt");
-
-
-
-
-
-
-
-
-
-
-
 </script>
 {{end}}

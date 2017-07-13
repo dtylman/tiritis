@@ -23,6 +23,9 @@ import (
 
 	"github.com/dtylman/tiritis/controllers"
 	"github.com/dtylman/tiritis/models/db"
+	"github.com/dtylman/tiritis/openshift"
+
+	"github.com/dtylman/tiritis/models"
 )
 
 const (
@@ -35,7 +38,28 @@ var (
 )
 
 func main() {
+	os.Setenv("KUBE_CONFIG", "/home/danny/.kube/config")
+
 	beego.Info(beego.AppName, APP_VER)
+
+	var err error
+	err = openshift.LoadResourcesFromSwagger("conf/openshift-openapi-spec.json")
+	if err != nil {
+		panic(err)
+	}
+	//get openshift configuration
+	openshift.DefaultClient, err = openshift.NewClient()
+	if err != nil {
+		panic(err)
+	}
+	defer openshift.DefaultClient.Stop()
+
+	//open db
+	err = db.Open()
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
 	// Register routers.
 	beego.Router("/", &controllers.AppController{})
@@ -48,7 +72,7 @@ func main() {
 	beego.Router("/inspects/edit", &controllers.InspectController{}, "get:Edit")
 	beego.Router("/inspects/save", &controllers.InspectController{}, "post:Save")
 
-	beego.Router("/alerts", &controllers.AppController{}, "get:Alerts")
+	beego.Router("/alerts", &controllers.AlertController{}, "get:List")
 
 	beego.Router("/dashboard", &controllers.AppController{}, "get:Dashboard")
 
@@ -66,10 +90,9 @@ func main() {
 		beego.EnableHttpTLS = true
 	}
 
-	err := db.Open()
+	err = models.LoadInspections()
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
 	beego.Run()
 }

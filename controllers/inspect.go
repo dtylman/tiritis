@@ -1,10 +1,14 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/dtylman/tiritis/models"
 	"github.com/dtylman/tiritis/models/db"
+	"github.com/dtylman/tiritis/openshift"
 )
+
+var counter = 1 // just a counter for new items
 
 type InspectController struct {
 	baseController
@@ -18,6 +22,7 @@ func (ic *InspectController) Edit() {
 	} else {
 		ic.Data["inspection"] = inspection
 	}
+	ic.Data["resources"] = openshift.Resources
 	ic.TplNames = "inspects/edit.html"
 }
 
@@ -35,6 +40,9 @@ func (ic *InspectController) Delete() {
 }
 
 func (ic *InspectController) New() {
+	ic.Data["resources"] = openshift.Resources
+	ic.Data["inspection"] = models.Inspection{Name: fmt.Sprintf("inspect%d", counter)}
+	counter++
 	ic.TplNames = "inspects/edit.html"
 }
 
@@ -42,8 +50,16 @@ func (ic *InspectController) Save() {
 	inspection := &models.Inspection{
 		Name:        ic.GetString("txtName"),
 		Description: ic.GetString("txtDesc"),
-		Script:      ic.GetString("txtScript")}
+		Resource:    ic.GetString("selResource"),
+		Script:      ic.GetString("txtScript"),
+	}
 	err := db.Instance.Save(inspection)
+	if err != nil {
+		ic.addError(err)
+		ic.TplNames = "inspects/edit.html"
+		return
+	}
+	err = models.LoadInspections()
 	if err != nil {
 		ic.addError(err)
 	}
