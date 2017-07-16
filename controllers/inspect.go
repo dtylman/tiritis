@@ -6,6 +6,7 @@ import (
 	"github.com/dtylman/tiritis/models"
 	"github.com/dtylman/tiritis/models/db"
 	"github.com/dtylman/tiritis/openshift"
+	"net/http"
 )
 
 var counter = 1 // just a counter for new items
@@ -36,7 +37,7 @@ func (ic *InspectController) Delete() {
 	if err != nil {
 		ic.addError(err)
 	}
-	ic.List()
+	ic.Redirect("/inspects", http.StatusFound)
 }
 
 func (ic *InspectController) New() {
@@ -63,7 +64,7 @@ func (ic *InspectController) Save() {
 	if err != nil {
 		ic.addError(err)
 	}
-	ic.List()
+	ic.Redirect("/inspects", http.StatusFound)
 }
 
 func (ic *InspectController) List() {
