@@ -26,8 +26,7 @@
             <tbody>
             {{range .alerts}}
 
-            <tr data-toggle="popover" title="Event: {{.Event}}" {{if eq .Type
-            "alert"}}class="warning" {{else}} class="danger" {{end}} >
+            <tr data-toggle="popover" title="Event: {{.Event}}" {{if eq .Type "alert"}}class="warning" {{else}} class="danger" {{end}} >
             <td>{{.Time}}</td>
             <td>{{.Inspection}}</td>
             <td>{{.Type}}</td>

@@ -7,6 +7,8 @@ Logo is taken from here: https://pixabay.com/en/gnu-animal-cute-funny-mammal-161
 
 ![test](static/tiritis-small.png)
 
+### How?
+![overview](overview.png)
 #### Inspections
 
 Do not allow route without TLS:
