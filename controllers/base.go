@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
 )
@@ -38,6 +39,8 @@ func (bc *baseController) Prepare() {
 
 	// by default - show the nav bar.
 	bc.setNavBar(true)
+
+	bc.Data["username"] = fmt.Sprintf("%v", bc.GetSession("username"))
 }
 
 func (bc *baseController) setNavBar(value bool) {
